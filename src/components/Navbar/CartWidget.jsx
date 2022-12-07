@@ -20,7 +20,7 @@ const Cart = styled.button`
   border-radius: 50px;
   padding: 0.3rem;
   background: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-family: "Quicksand", sans-serif;
 
   span {
@@ -36,7 +36,7 @@ const Cart = styled.button`
 
   &:hover {
     color: white;
-    background-color: #da6868;
+    background-color: #ffa6a6;
   }
 `;
 

@@ -6,8 +6,10 @@ export const Button = styled.button`
   background: none;
   font-size: 1rem;
   font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  color: white;
 
   &:hover {
-    color: #ffdddd;
+    color: #dfc9c9;
   }
 `;
