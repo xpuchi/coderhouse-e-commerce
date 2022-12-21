@@ -5,26 +5,42 @@ import {
   ItemListContainer,
   ItemDetailContainer,
   Contact,
+  Cart,
+  Login,
 } from "./components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <SearchContainer />
-        <Banner />
-        <Routes>
-          <Route
-            path="/"
-            element={<ItemListContainer greeting="Productos" />}
-          />
-          <Route path="/category/:categoryId" element={<ItemListContainer />} />
-          <Route path="/product/:productId" element={<ItemDetailContainer />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <Navbar />
+            <SearchContainer />
+            <Banner />
+            <Routes>
+              <Route
+                path="/"
+                element={<ItemListContainer greeting="Productos" />}
+              />
+              <Route
+                path="/category/:categoryId"
+                element={<ItemListContainer />}
+              />
+              <Route
+                path="/product/:productId"
+                element={<ItemDetailContainer />}
+              />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
+      </AuthProvider>
     </div>
   );
 }

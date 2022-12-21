@@ -1,17 +1,17 @@
-import React from "react";
-import ItemCount from "./ItemCount";
+import Loader from "../Loader/Loader";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { CartContext } from "../../context/CartContext";
+import React, { useState, useEffect, useContext } from "react";
 import { getItemById } from "../../asyncMock";
-import { useParams } from "react-router-dom";
-
-const handleOnAdd = (quantity) => {
-  console.log("Se agregaron al carrito " + quantity + " productos");
-};
+import { useParams, Link } from "react-router-dom";
+import { ButtonPrimary } from "../Button/ButtonPrimary";
+import { ItemCount } from "./ItemCount";
 
 const ItemDetail = () => {
+  const [count, setCount] = useState(1);
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const { addItem, isInCart, removeItem } = useContext(CartContext);
 
   const { productId } = useParams();
 
@@ -29,8 +29,14 @@ const ItemDetail = () => {
   }, [productId]);
 
   if (isLoading) {
-    return <h2>Cargando..</h2>;
+    return (
+      <h2>
+        <Loader />
+      </h2>
+    );
   }
+
+  const isAdded = isInCart(product.id);
 
   return (
     <CardDetail>
@@ -43,8 +49,26 @@ const ItemDetail = () => {
         <h4>{product?.author}</h4>
         <p>{product?.description}</p>
         <h3>${product?.price}</h3>
-        <ItemCount initial={0} stock={product?.stock} onAdd={handleOnAdd} />
-        <p>({product?.stock} unidades en stock)</p>
+
+        <ItemCount
+          initial={0}
+          stock={product?.stock}
+          count={count}
+          setCount={setCount}
+        />
+
+        <ButtonPrimary
+          onClick={() =>
+            isAdded ? removeItem(product, count) : addItem(product, count)
+          }
+          disabled={product?.stock === 0}
+        >
+          {isAdded ? "Quitar del carrito" : "Agregar al carrito"}
+        </ButtonPrimary>
+
+        <Link to="/cart">
+          <ButtonPrimary>Terminar compra</ButtonPrimary>
+        </Link>
       </div>
     </CardDetail>
   );

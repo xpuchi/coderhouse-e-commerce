@@ -1,12 +1,10 @@
 import React from "react";
-import { useState } from "react";
 import styled from "styled-components";
+
 import { ButtonPrimary } from "../Button/ButtonPrimary";
-// import { TbTrash } from "react-icons/tb";
+import { TbTrash } from "react-icons/tb";
 
-function ItemCount({ stock, initial, onAdd }) {
-  const [count, setCount] = useState(initial);
-
+export function ItemCount({ stock, initial, count, setCount }) {
   const increment = () => {
     if (count < stock) {
       setCount(count + 1);
@@ -14,31 +12,28 @@ function ItemCount({ stock, initial, onAdd }) {
   };
 
   const decrease = () => {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     }
   };
 
-  // const reset = () => {
-  //   setCount(initial);
-  // };
+  const reset = () => {
+    setCount(initial);
+  };
 
   return (
     <Counter>
       <ButtonPrimary onClick={() => decrease()}>-</ButtonPrimary>
       {count}
       <ButtonPrimary onClick={() => increment()}>+</ButtonPrimary>
-      {/* <ButtonPrimary onClick={() => reset()}>
+      <ButtonPrimary onClick={() => reset()}>
         <TbTrash />
-      </ButtonPrimary> */}
-      <ButtonPrimary onClick={() => onAdd(count)} disabled={count === 0}>
-        Agregar al carrito
       </ButtonPrimary>
+
+      {/* <ButtonPrimary onClick={() => onAdd(count)} disabled={count === 0}> */}
     </Counter>
   );
 }
-
-export default ItemCount;
 
 const Counter = styled.div`
   display: flex;

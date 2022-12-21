@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TbShoppingCart } from "react-icons/tb";
 import styled from "styled-components";
+import { CartContext } from "../../context/CartContext";
 
 function CartWidget() {
+  const { count } = useContext(CartContext);
+
+  // const totalQuantity = getQuantity();
+
   return (
     <Cart>
       <TbShoppingCart />
-      <span>2</span>
+      {count > 0 ? <span>{count}</span> : null}
     </Cart>
   );
 }
@@ -20,8 +25,10 @@ const Cart = styled.button`
   border-radius: 50px;
   padding: 0.3rem;
   background: none;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-family: "Quicksand", sans-serif;
+  color: white;
+  background-color: #ffa6a6;
 
   span {
     position: absolute;
@@ -32,11 +39,6 @@ const Cart = styled.button`
     border-radius: 50%;
     padding: 0.1rem 0.3rem;
     font-size: 0.5rem;
-  }
-
-  &:hover {
-    color: white;
-    background-color: #ffa6a6;
   }
 `;
 

@@ -5,3 +5,5 @@ export * from "./SearchContainer/SearchContainer";
 export * from "./Banner/Banner";
 export * from "./ItemDetailContainer/ItemDetailContainer";
 export * from "./Contact/Contact";
+export * from "./Cart/Cart";
+export * from "./Login/Login";

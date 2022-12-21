@@ -4,8 +4,12 @@ import CartWidget from "./CartWidget";
 import { TbBook } from "react-icons/tb";
 import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { TbUser } from "react-icons/tb";
 
 export function Navbar() {
+  const { user } = useContext(AuthContext);
   return (
     <Nav>
       <Link to="/">
@@ -33,8 +37,16 @@ export function Navbar() {
         </Link>
       </div>
 
-      <div>
-        <CartWidget />
+      <div className="login-cart">
+        <Link to="/login">
+          <Button className="login">
+            <TbUser />
+            {user ? "Logout" : "Login"}
+          </Button>
+        </Link>
+        <Link to="/cart">
+          <CartWidget />
+        </Link>
       </div>
     </Nav>
   );
@@ -53,6 +65,20 @@ const Nav = styled.nav`
 
   a {
     text-decoration: none;
+  }
+
+  .login-cart {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    align-items: flex-start;
+
+    .login {
+      display: flex;
+      flex-direction: row;
+      gap: 0.3rem;
+      align-items: center;
+    }
   }
 `;
 

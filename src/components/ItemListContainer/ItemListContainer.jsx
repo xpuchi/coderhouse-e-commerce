@@ -1,14 +1,17 @@
 import styled from "styled-components";
 import ItemList from "./ItemList";
+import Loader from "../Loader/Loader";
 import React, { useState, useEffect } from "react";
 import { getProducts, getProductsByCategory } from "../../asyncMock";
 import { useParams } from "react-router-dom";
 
 export const ItemListContainer = ({ greeting }) => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { categoryId } = useParams();
 
   useEffect(() => {
+    setIsLoading(true);
     if (!categoryId) {
       getProducts()
         .then((response) => {
@@ -16,6 +19,9 @@ export const ItemListContainer = ({ greeting }) => {
         })
         .catch((error) => {
           console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else {
       getProductsByCategory(categoryId)
@@ -24,9 +30,18 @@ export const ItemListContainer = ({ greeting }) => {
         })
         .catch((error) => {
           console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
+
+    return () => setIsLoading(true);
   }, [categoryId]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   const title = greeting ? greeting : categoryId;
 

@@ -206,8 +206,8 @@ export const getProductsByCategory = (categoryId) => {
 export const getItemById = (id) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log("setTimeout", { products, id });
-      console.log(products.find((product) => product.id === id));
+      // console.log("setTimeout", { products, id });
+      // console.log(products.find((product) => product.id === id));
       return resolve(products.find((product) => product.id === id));
     }, 2000);
   });
