@@ -85,8 +85,8 @@ export const Cart = () => {
           <Link to="/">
             <ButtonSecondary>Seguir Comprando</ButtonSecondary>
           </Link>
-          <Link to="">
-            <ButtonPrimary>Finalizar Compra</ButtonPrimary>
+          <Link to="/checkout">
+            <ButtonPrimary>Terminar compra</ButtonPrimary>
           </Link>
         </span>
       </div>

@@ -1,12 +1,12 @@
 import {
   Navbar,
-  SearchContainer,
   Banner,
   ItemListContainer,
   ItemDetailContainer,
   Contact,
   Cart,
   Login,
+  Checkout,
 } from "./components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
@@ -19,7 +19,6 @@ function App() {
         <CartProvider>
           <BrowserRouter>
             <Navbar />
-            <SearchContainer />
             <Banner />
             <Routes>
               <Route
@@ -37,6 +36,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </BrowserRouter>
         </CartProvider>

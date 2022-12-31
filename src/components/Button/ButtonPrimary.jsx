@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ButtonPrimary = styled.button`
-  border: none;
+  border: 2px solid #da6868;
   cursor: pointer;
   background-color: #da6868;
   color: white;
@@ -13,5 +13,6 @@ export const ButtonPrimary = styled.button`
 
   &:hover {
     background-color: #ed9c9c;
+    border: 2px solid #ed9c9c;
   }
 `;

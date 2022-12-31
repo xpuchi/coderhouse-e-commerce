@@ -1,46 +1,27 @@
 import styled from "styled-components";
 import ItemList from "./ItemList";
 import Loader from "../Loader/Loader";
-import React, { useState, useEffect } from "react";
-import { getProducts, getProductsByCategory } from "../../asyncMock";
 import { useParams } from "react-router-dom";
+import { getProducts } from "../../services/firebase/firestore/products";
+import { useAsync } from "../../hooks/useAsync";
 
 export const ItemListContainer = ({ greeting }) => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { categoryId } = useParams();
 
-  useEffect(() => {
-    setIsLoading(true);
-    if (!categoryId) {
-      getProducts()
-        .then((response) => {
-          setProducts(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      getProductsByCategory(categoryId)
-        .then((response) => {
-          setProducts(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+  const getProductsWithCategory = () => getProducts(categoryId);
 
-    return () => setIsLoading(true);
-  }, [categoryId]);
+  const {
+    data: products,
+    error,
+    isLoading,
+  } = useAsync(getProductsWithCategory, [categoryId]);
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (error) {
+    return <h1>Hubo un error</h1>;
   }
 
   const title = greeting ? greeting : categoryId;

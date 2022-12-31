@@ -2,23 +2,29 @@ import Loader from "../Loader/Loader";
 import styled from "styled-components";
 import { CartContext } from "../../context/CartContext";
 import React, { useState, useEffect, useContext } from "react";
-import { getItemById } from "../../asyncMock";
 import { useParams, Link } from "react-router-dom";
 import { ButtonPrimary } from "../Button/ButtonPrimary";
 import { ItemCount } from "./ItemCount";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../../services/firebase/firebaseConfig";
 
 const ItemDetail = () => {
   const [count, setCount] = useState(1);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const { addItem, isInCart, removeItem } = useContext(CartContext);
 
   const { productId } = useParams();
 
   useEffect(() => {
-    getItemById(productId)
+    const docRef = doc(db, "products", productId);
+
+    getDoc(docRef)
       .then((response) => {
-        setProduct(response);
+        const data = response.data();
+        const productAdapted = { id: productId, ...data };
+
+        setProduct(productAdapted);
       })
       .catch((error) => {
         console.log(error);
@@ -36,7 +42,13 @@ const ItemDetail = () => {
     );
   }
 
-  const isAdded = isInCart(product.id);
+  console.log(product);
+
+  if (Object.keys(product).length === 1) {
+    return <h2>No existe el producto</h2>;
+  }
+
+  const isAdded = isInCart(productId);
 
   return (
     <CardDetail>
@@ -50,25 +62,28 @@ const ItemDetail = () => {
         <p>{product?.description}</p>
         <h3>${product?.price}</h3>
 
-        <ItemCount
-          initial={0}
-          stock={product?.stock}
-          count={count}
-          setCount={setCount}
-        />
+        <small>(stock: {product?.stock} unidad/es)</small>
 
-        <ButtonPrimary
-          onClick={() =>
-            isAdded ? removeItem(product, count) : addItem(product, count)
-          }
-          disabled={product?.stock === 0}
-        >
-          {isAdded ? "Quitar del carrito" : "Agregar al carrito"}
-        </ButtonPrimary>
-
-        <Link to="/cart">
-          <ButtonPrimary>Terminar compra</ButtonPrimary>
-        </Link>
+        <div>
+          {" "}
+          <ItemCount
+            initial={0}
+            stock={product?.stock}
+            count={count}
+            setCount={setCount}
+          />
+          <ButtonPrimary
+            onClick={() =>
+              isAdded ? removeItem(product, count) : addItem(product, count)
+            }
+            disabled={product?.stock === 0}
+          >
+            {isAdded ? "Quitar del carrito" : "Agregar al carrito"}
+          </ButtonPrimary>
+          <Link to="/cart">
+            <ButtonPrimary>Ir al carrito</ButtonPrimary>
+          </Link>
+        </div>
       </div>
     </CardDetail>
   );
