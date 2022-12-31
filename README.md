@@ -8,4 +8,4 @@ Proyecto de e-commerce de libros para el curso de <b>React</b> de CODERHOUSE.
 
 <li>Las ilustraciones utilizadas fueron sacadas de <a href="http://www.canva.com">Canva</a></li>
 
-<li>Se utilizó <a href="">react-hook-form</a> para validar los formularios</li>
+<li>Se utilizó <a href="https://react-hook-form.com/">react-hook-form</a> para validar los formularios</li>
